@@ -24,6 +24,7 @@ import android.app.FragmentTransaction;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,18 +35,18 @@ import android.widget.TextView;
  * and layout attributes.
  */
 public class FragmentArguments extends Activity {
-
+    public static final String TAG = "FragmentArguments";
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_arguments);
 
-        if (savedInstanceState == null) {
-            // First-time init; create fragment to embed in activity.
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            Fragment newFragment = MyFragment.newInstance("From Arguments");
-            ft.add(R.id.created, newFragment);
-            ft.commit();
-        }
+//        if (savedInstanceState == null) {
+//            // First-time init; create fragment to embed in activity.
+//            FragmentTransaction ft = getFragmentManager().beginTransaction();
+//            Fragment newFragment = MyFragment.newInstance("From Arguments");
+//            ft.add(R.id.created, newFragment);
+//            ft.commit();
+//        }
     }
 
 
@@ -72,6 +73,7 @@ public class FragmentArguments extends Activity {
         @Override public void onInflate(Activity activity, AttributeSet attrs,
                 Bundle savedInstanceState) {
             super.onInflate(activity, attrs, savedInstanceState);
+            Log.v(TAG, "onInflate");
 
             TypedArray a = activity.obtainStyledAttributes(attrs,
                     R.styleable.FragmentArguments);
@@ -85,7 +87,8 @@ public class FragmentArguments extends Activity {
          */
         @Override public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-
+            Log.v(TAG, "onCreate");
+            
             Bundle args = getArguments();
             if (args != null) {
                 mLabel = args.getCharSequence("label", mLabel);
@@ -97,6 +100,8 @@ public class FragmentArguments extends Activity {
          */
         @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
+            Log.v(TAG, "onCreateView");
+
             View v = inflater.inflate(R.layout.hello_world, container, false);
             View tv = v.findViewById(R.id.text);
             ((TextView)tv).setText(mLabel != null ? mLabel : "(no label)");
